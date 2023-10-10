@@ -1,0 +1,29 @@
+# deploy mysql database with OpenShift-MySQL-template
+oc new-app --template=mysql-persistent -p MYSQL_USER=user1 -p MYSQL_PASSWORD=mypa55 -p MYSQL_DATABASE=testdb -p MYSQL_ROOT_PASSWORD=r00tpa55 -p VOLUME_CAPACITY=10Gi
+
+# get status
+oc status
+
+# get pods
+oc get pods
+
+# describe deployed pod
+oc describe pod mysql-1-jtwzf
+
+# get service
+oc get svc
+
+# describe mysql service
+oc describe service mysql
+
+# get persistent volume claims
+oc get pvc
+
+# get persistant volume claim of mysql-app
+oc describe pvc/mysql
+
+# execute command in pod
+oc exec mysql-1-5vfn4 -- mysql -uuser1 -pmypa55 --protocol tcp -h localhost -e 'show databases;'
+
+# port-forwarding (debugging etc. ; do not use in production!)
+oc port-forward <pod-name> <exposed port>:<source port>
